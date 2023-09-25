@@ -1,0 +1,11 @@
+{
+	"manifest_version": 3,
+	"name": "COC Helper",
+	"version": "1.0",
+	"description": "COC Helper",
+	"action": {
+		"default_popup": "index.html"
+	},
+	"permissions": ["activeTab", "scripting"],
+	"host_permissions": ["http://*/*", "https://*/*"]
+}
