@@ -65,6 +65,7 @@ function App() {
 								paymentPlatformOrderId +
 								"\n" +
 								license;
+							console.log(info);
 							await navigator.clipboard.writeText(info);
 						},
 					});
