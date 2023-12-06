@@ -37,7 +37,7 @@ function App() {
 							const paymentPlatform =
 								paymentInfoDiv?.childNodes[3].textContent;
 							const actuallyPaid =
-								paymentInfoDiv?.childNodes[1].textContent;
+								paymentInfoDiv?.childNodes[2].textContent;
 							const orderId =
 								paymentInfoDiv?.childNodes[0].textContent;
 							const paymentPlatformName =
