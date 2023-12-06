@@ -36,29 +36,40 @@ function App() {
 							})?.nextSibling?.firstChild;
 							const paymentPlatform =
 								paymentInfoDiv?.childNodes[3].textContent;
+							const actuallyPaid =
+								paymentInfoDiv?.childNodes[1].textContent;
 							const orderId =
 								paymentInfoDiv?.childNodes[0].textContent;
-							const paymentPlatformEmail =
+							const paymentPlatformName =
 								paymentInfoDiv?.childNodes[4].textContent;
+							const paymentPlatformAccount =
+								paymentInfoDiv?.childNodes[6].textContent;
 							const paymentPlatformOrderId =
 								paymentInfoDiv?.childNodes[5].textContent;
-							const license = [
-								...document.querySelectorAll(
-									"div.title.font-size-125.border-bottom.mb-lg-2"
-								),
-							].find((div) => {
-								return (
-									div.textContent?.trim() === "license列表"
-								);
-							})?.nextSibling?.childNodes[1].firstChild
-								?.textContent;
+							const license =
+								"License: " +
+								[
+									...document.querySelectorAll(
+										"div.title.font-size-125.border-bottom.mb-lg-2"
+									),
+								].find((div) => {
+									return (
+										div.textContent?.trim() ===
+										"license列表"
+									);
+								})?.nextSibling?.childNodes[1].firstChild
+									?.textContent;
 
 							const info =
 								paymentPlatform +
 								"\n" +
+								actuallyPaid +
+								"\n" +
 								deliveryEmail +
 								"\n" +
-								paymentPlatformEmail +
+								paymentPlatformName +
+								"\n" +
+								paymentPlatformAccount +
 								"\n" +
 								orderId +
 								"\n" +
