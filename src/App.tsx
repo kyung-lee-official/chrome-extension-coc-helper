@@ -25,6 +25,13 @@ function App() {
 								})
 								?.nextSibling?.firstChild?.textContent?.trim();
 
+							const orderInfoDiv = [
+								...document.querySelectorAll(
+									"div.title.font-size-125.border-bottom.mb-lg-2"
+								),
+							].find((div) => {
+								return div.textContent?.trim() === "订单信息";
+							})?.nextSibling?.firstChild;
 							const paymentInfoDiv = [
 								...document.querySelectorAll(
 									"div.title.font-size-125.border-bottom.mb-lg-2"
@@ -36,8 +43,16 @@ function App() {
 							})?.nextSibling?.firstChild;
 							const paymentPlatform =
 								paymentInfoDiv?.childNodes[3].textContent;
+							const currency: string =
+								orderInfoDiv?.childNodes[9].textContent?.replace(
+									"币种：",
+									""
+								) ?? "";
 							const actuallyPaid =
-								paymentInfoDiv?.childNodes[2].textContent;
+								paymentInfoDiv?.childNodes[2].textContent?.replace(
+									"实扣金额：",
+									"实扣金额：" + currency + " "
+								);
 							const orderId =
 								paymentInfoDiv?.childNodes[0].textContent;
 							const paymentPlatformName =
