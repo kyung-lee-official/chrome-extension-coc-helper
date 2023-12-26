@@ -74,6 +74,8 @@ function App() {
 									);
 								})?.nextSibling?.childNodes[1].firstChild
 									?.textContent;
+							const postScript =
+								paymentInfoDiv?.childNodes[11].textContent;
 
 							const info =
 								paymentPlatform +
@@ -89,6 +91,8 @@ function App() {
 								orderId +
 								"\n" +
 								paymentPlatformOrderId +
+								"\n" +
+								postScript +
 								"\n" +
 								license;
 							console.log(info);
