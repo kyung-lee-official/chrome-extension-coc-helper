@@ -19,6 +19,20 @@ function App() {
 								),
 							];
 
+							const orderInfo = blocks.find((div) => {
+								return div.textContent?.trim() === "订单信息";
+							})?.nextSibling?.firstChild?.childNodes;
+
+							const orderId = (
+								Array.from(orderInfo as any).find(
+									(div: any) => {
+										return div.textContent
+											?.trim()
+											.startsWith("订单ID");
+									}
+								) as any
+							)?.textContent?.trim();
+
 							const deliveryEmail = blocks
 								.find((div) => {
 									return (
@@ -36,55 +50,104 @@ function App() {
 									div.textContent?.trim() === "订单支付信息"
 								);
 							})?.nextSibling?.firstChild;
-							const paymentPlatform =
-								paymentInfoDiv?.childNodes[3].textContent;
+
+							const paymentPlatform = (
+								Array.from(
+									paymentInfoDiv?.childNodes as any
+								).find((div: any) => {
+									return div.textContent
+										?.trim()
+										.startsWith("渠道类型");
+								}) as any
+							)?.textContent?.trim();
+
 							const currency: string =
-								orderInfoDiv?.childNodes[9].textContent?.replace(
-									"币种：",
-									""
-								) ?? "";
+								(
+									Array.from(orderInfo as any).find(
+										(div: any) => {
+											return div.textContent
+												?.trim()
+												.startsWith("币种");
+										}
+									) as any
+								)?.textContent
+									?.trim()
+									.replace("币种：", "") ?? "";
 							const actuallyPaid =
 								paymentInfoDiv?.childNodes[2].textContent?.replace(
 									"实扣金额：",
 									"实扣金额：" + currency + " "
 								);
-							const orderId =
+
+							const transactionId =
 								paymentInfoDiv?.childNodes[0].textContent;
 							const paymentPlatformName =
 								paymentInfoDiv?.childNodes[4].textContent;
 							const paymentPlatformAccount =
 								paymentInfoDiv?.childNodes[6].textContent;
-							const paymentPlatformOrderId =
+							const paymentPlatformTransactionId =
 								paymentInfoDiv?.childNodes[5].textContent;
 
-							const license =
-								"License: " +
-								blocks.find((div) => {
-									return (
-										div.textContent?.trim() ===
-										"license列表"
-									);
-								})?.nextSibling?.childNodes[1].firstChild
-									?.textContent;
+							const licenseContent = blocks.find((div) => {
+								return (
+									div.textContent?.trim() === "license列表"
+								);
+							})?.nextSibling;
+
+							let license = "";
+
+							if (licenseContent) {
+								if (licenseContent.textContent?.trim() === "") {
+									license = "License: 暂无license";
+								} else {
+									const licenses = Array.from(
+										licenseContent.childNodes as any
+									)
+										.filter((obj: any) => {
+											return (
+												obj.textContent.trim() !== ""
+											);
+										})
+										.map((a: any) => {
+											return a.textContent.trim();
+										});
+
+									license = "License: ";
+									for (const l of licenses) {
+										license = license + "\n" + l;
+									}
+								}
+							}
+
 							const postScript =
 								paymentInfoDiv?.childNodes[11].textContent;
 
 							const info =
+								"--------- 订单信息 ---------" +
+								"\n" +
+								orderId +
+								"\n\n" +
+								"--------- 配送信息 ---------" +
+								"\n" +
+								deliveryEmail +
+								"\n\n" +
+								"------- 订单支付信息 -------" +
+								"\n" +
 								paymentPlatform +
 								"\n" +
 								actuallyPaid +
-								"\n" +
-								deliveryEmail +
 								"\n" +
 								paymentPlatformName +
 								"\n" +
 								paymentPlatformAccount +
 								"\n" +
-								orderId +
+								transactionId +
 								"\n" +
-								paymentPlatformOrderId +
+								paymentPlatformTransactionId +
 								"\n" +
 								postScript +
+								"\n\n" +
+								"-------- Licenses --------" +
 								"\n" +
 								license;
 							console.log(info);
