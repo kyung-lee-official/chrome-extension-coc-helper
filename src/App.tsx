@@ -41,25 +41,24 @@ function App() {
 								})
 								?.nextSibling?.firstChild?.textContent?.trim();
 
-							const orderInfoDiv = blocks.find((div) => {
-								return div.textContent?.trim() === "订单信息";
-							})?.nextSibling?.firstChild;
-
 							const paymentInfoDiv = blocks.find((div) => {
 								return (
 									div.textContent?.trim() === "订单支付信息"
 								);
 							})?.nextSibling?.firstChild;
 
-							const paymentPlatform = (
-								Array.from(
-									paymentInfoDiv?.childNodes as any
-								).find((div: any) => {
-									return div.textContent
-										?.trim()
-										.startsWith("渠道类型");
-								}) as any
-							)?.textContent?.trim();
+							let paymentPlatform = undefined;
+							if (paymentInfoDiv) {
+								paymentPlatform = (
+									Array.from(
+										paymentInfoDiv?.childNodes as any
+									).find((div: any) => {
+										return div.textContent
+											?.trim()
+											.startsWith("渠道类型");
+									}) as any
+								)?.textContent?.trim();
+							}
 
 							const currency: string =
 								(
@@ -132,20 +131,22 @@ function App() {
 								deliveryEmail +
 								"\n\n" +
 								"------- 订单支付信息 -------" +
-								"\n" +
-								paymentPlatform +
-								"\n" +
-								actuallyPaid +
-								"\n" +
-								paymentPlatformName +
-								"\n" +
-								paymentPlatformAccount +
-								"\n" +
-								transactionId +
-								"\n" +
-								paymentPlatformTransactionId +
-								"\n" +
-								postScript +
+								(paymentPlatform
+									? "\n" +
+									  paymentPlatform +
+									  "\n" +
+									  actuallyPaid +
+									  "\n" +
+									  paymentPlatformName +
+									  "\n" +
+									  paymentPlatformAccount +
+									  "\n" +
+									  transactionId +
+									  "\n" +
+									  paymentPlatformTransactionId +
+									  "\n" +
+									  postScript
+									: "\n无") +
 								"\n\n" +
 								"-------- Licenses --------" +
 								"\n" +
