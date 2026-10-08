@@ -51,8 +51,6 @@ function App() {
 								appOrderDetail?.children[0]?.children[0]
 									?.children[7]?.children[1]?.children[0];
 
-							console.log(licenseElement?.textContent);
-
 							let license = "";
 
 							if (licenseElement) {
