@@ -19,12 +19,6 @@ function App() {
 					const [injection] = await chrome.scripting.executeScript({
 						target: { tabId: tab.id },
 						func: () => {
-							const blocks = [
-								...document.querySelectorAll(
-									"div.title.font-size-125.mb-lg-2"
-								),
-							];
-
 							const appOrderDetail =
 								document.querySelector("app-order-detail");
 
@@ -53,20 +47,20 @@ function App() {
 
 							orderInfoText = orderInfoText.trim();
 
-							const licenseContent = blocks.find((div) => {
-								return (
-									div.textContent?.trim() === "license列表"
-								);
-							})?.nextSibling;
+							const licenseElement =
+								appOrderDetail?.children[0]?.children[0]
+									?.children[7]?.children[1]?.children[0];
+
+							console.log(licenseElement?.textContent);
 
 							let license = "";
 
-							if (licenseContent) {
-								if (licenseContent.textContent?.trim() === "") {
+							if (licenseElement) {
+								if (licenseElement.textContent?.trim() === "") {
 									license = "License: 暂无license";
 								} else {
 									const licenses = Array.from(
-										licenseContent.childNodes as any
+										licenseElement.childNodes as any
 									)
 										.filter((obj: any) => {
 											return (
@@ -89,7 +83,7 @@ function App() {
 								"\n" +
 								orderInfoText +
 								"\n\n" +
-								"-------- Licenses --------" +
+								"-------- 密钥信息 --------" +
 								"\n" +
 								license;
 							console.log(info);
