@@ -5,6 +5,7 @@ function App() {
 			bg-gray-200"
 		>
 			<button
+				type="button"
 				className="px-4 py-2
 				text-white font-semibold
 				bg-blue-500 hover:bg-blue-600 rounded-md"
