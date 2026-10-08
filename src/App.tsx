@@ -20,19 +20,37 @@ function App() {
 								),
 							];
 
-							const orderInfo = blocks.find((div) => {
-								return div.textContent?.trim() === "订单信息";
-							})?.nextSibling?.firstChild?.childNodes;
+							const appOrderDetail =
+								document.querySelector("app-order-detail");
 
-							const orderId = (
-								Array.from(orderInfo as any).find(
-									(div: any) => {
-										return div.textContent
-											?.trim()
-											.startsWith("订单ID");
-									}
-								) as any
-							)?.textContent?.trim();
+							const orderInfoElement =
+								appOrderDetail?.children[0]?.children[0]
+									?.children[0]?.children[1]?.children[0]
+									?.children[0];
+
+							const orderInfoLabels = [
+								"订单编号",
+								"下单时间",
+								"订单金额",
+								"运费",
+								"实付金额",
+								"支付方式",
+							];
+
+							let orderInfoText =
+								orderInfoElement?.textContent ?? "";
+
+							for (const label of orderInfoLabels) {
+								orderInfoText = orderInfoText
+									.split(`${label}：`)
+									.join(`\n${label}：`);
+							}
+
+							orderInfoText = orderInfoText.trim();
+
+							console.log(orderInfoText);
+
+							const orderInfo = orderInfoElement?.childNodes;
 
 							const deliveryEmail = blocks
 								.find((div) => {
@@ -125,7 +143,7 @@ function App() {
 							const info =
 								"--------- 订单信息 ---------" +
 								"\n" +
-								orderId +
+								orderInfoText +
 								"\n\n" +
 								"--------- 配送信息 ---------" +
 								"\n" +
